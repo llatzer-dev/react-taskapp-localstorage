@@ -1,20 +1,27 @@
 /* eslint-disable no-unused-vars */
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./App.css";
 import { TaskCreator } from "./components/TaskCreator";
 
 function App() {
-  const [tasksItems, setTasksItems] = useState([
-    { name: "mi primer tarea", done: false },
-    { name: "mi segunda tarea", done: false },
-    { name: "mi tercera tarea", done: false },
-  ]);
+  const [tasksItems, setTasksItems] = useState([]);
 
   const createNewTask = (taskName) => {
     if (!tasksItems.find((task) => task.name === taskName)) {
       setTasksItems([...tasksItems, { name: taskName, done: false }]);
     }
   };
+
+  useEffect(() => {
+    let data = localStorage.getItem("tasks");
+    if (data) {
+      setTasksItems(JSON.parse(data));
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("tasks", JSON.stringify(tasksItems));
+  }, [tasksItems]);
 
   return (
     <div className="App">
@@ -28,7 +35,7 @@ function App() {
         </thead>
         <tbody>
           {tasksItems.map((task) => (
-            <tr key={task.ma}>
+            <tr key={task.name}>
               <th>{task.name}</th>
             </tr>
           ))}
