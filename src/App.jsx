@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { useState, useEffect } from "react";
 import "./App.css";
+import { Container } from "./components/Container";
 import { TaskCreator } from "./components/TaskCreator";
 import { TaskTable } from "./components/TaskTable";
 import { VisibilityControl } from "./components/VisibilityControl";
@@ -40,25 +41,27 @@ function App() {
   }, [tasksItems]);
 
   return (
-    <div className="App">
-      <TaskCreator createNewTask={createNewTask} />
-      <TaskTable tasks={tasksItems} toggleTask={toggleTask} />
+    <div className="bg-dark vh-100 text-white">
+      <Container>
+        <TaskCreator createNewTask={createNewTask} />
+        <TaskTable tasks={tasksItems} toggleTask={toggleTask} />
 
-      <VisibilityControl
-        isChecked={showCompleted}
-        setShowCompleted={(checked) => {
-          setShowCompleted(checked);
-        }}
-        cleanTasks={cleanTasks}
-      />
-
-      {showCompleted === true && (
-        <TaskTable
-          tasks={tasksItems}
-          toggleTask={toggleTask}
-          showCompleted={showCompleted}
+        <VisibilityControl
+          isChecked={showCompleted}
+          setShowCompleted={(checked) => {
+            setShowCompleted(checked);
+          }}
+          cleanTasks={cleanTasks}
         />
-      )}
+
+        {showCompleted === true && (
+          <TaskTable
+            tasks={tasksItems}
+            toggleTask={toggleTask}
+            showCompleted={showCompleted}
+          />
+        )}
+      </Container>
     </div>
   );
 }
